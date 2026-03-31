@@ -148,11 +148,11 @@ def _post_slack_request(
     services_text = ", ".join(services)
 
     payload = {
-        "text": "New AWS Access Request",
+        "text": "AWS Access Request",
         "blocks": [
             {
                 "type": "header",
-                "text": {"type": "plain_text", "text": "New AWS Access Request", "emoji": False},
+                "text": {"type": "plain_text", "text": "AWS Access Request", "emoji": False},
             },
             {"type": "divider"},
             {
