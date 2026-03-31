@@ -23,7 +23,7 @@
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
       padding: 2.5rem 2rem;
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
     }
 
     .logo {
@@ -54,7 +54,7 @@
     label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.35rem; }
     label span.req { color: #ef4444; margin-left: 2px; }
 
-    input[type="text"], input[type="email"], select, textarea {
+    input[type="text"], input[type="email"], textarea, select {
       width: 100%;
       border: 1px solid #d1d5db;
       border-radius: 8px;
@@ -65,10 +65,10 @@
       transition: border-color 0.15s;
       outline: none;
     }
-    input:focus, select:focus, textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    input:focus, textarea:focus, select:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
     textarea { resize: vertical; min-height: 80px; }
 
-    /* Pill account selector */
+    /* Account pills */
     .account-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .account-pills input[type="radio"] { display: none; }
     .account-pills label {
@@ -90,14 +90,14 @@
     }
     .account-pills label:hover { border-color: #6b7280; }
 
-    /* Permission set pills */
-    .pset-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .pset-pills input[type="radio"] { display: none; }
-    .pset-pills label {
-      padding: 0.4rem 0.85rem;
+    /* Toggle pills (access type, yes/no) */
+    .toggle-pills { display: flex; gap: 0.5rem; }
+    .toggle-pills input[type="radio"] { display: none; }
+    .toggle-pills label {
+      padding: 0.4rem 1.2rem;
       border: 1.5px solid #d1d5db;
       border-radius: 20px;
-      font-size: 0.82rem;
+      font-size: 0.875rem;
       font-weight: 500;
       color: #374151;
       cursor: pointer;
@@ -105,12 +105,69 @@
       margin: 0;
       user-select: none;
     }
-    .pset-pills input[type="radio"]:checked + label {
+    .toggle-pills input[type="radio"]:checked + label {
       background: #0f4c81;
       border-color: #0f4c81;
       color: #fff;
     }
-    .pset-pills label:hover { border-color: #6b7280; }
+    .toggle-pills label:hover { border-color: #6b7280; }
+
+    /* Service search */
+    .service-search-wrap { position: relative; }
+    .service-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0; right: 0;
+      background: #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      max-height: 220px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+    }
+    .service-dropdown.open { display: block; }
+    .service-option {
+      padding: 0.55rem 0.75rem;
+      font-size: 0.875rem;
+      color: #374151;
+      cursor: pointer;
+    }
+    .service-option:hover, .service-option.highlighted { background: #f3f4f6; }
+    .no-results { padding: 0.55rem 0.75rem; font-size: 0.875rem; color: #9ca3af; }
+
+    /* Selected service tags */
+    .selected-services {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.6rem;
+    }
+    .service-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 20px;
+      padding: 0.25rem 0.6rem 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      color: #1d4ed8;
+    }
+    .service-tag button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #93c5fd;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .service-tag button:hover { color: #1d4ed8; }
+    .service-error { font-size: 0.8rem; color: #ef4444; margin-top: 0.35rem; display: none; }
 
     /* Duration slider */
     .slider-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.3rem; }
@@ -140,6 +197,9 @@
     }
     .slider-hint { font-size: 0.75rem; color: #9ca3af; margin-top: 0.3rem; }
 
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .field-block { margin-bottom: 1rem; }
+
     .submit-btn {
       margin-top: 2rem;
       width: 100%;
@@ -157,7 +217,10 @@
 
     .error-msg { color: #ef4444; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
 
-    @media (max-width: 480px) { .card { padding: 1.5rem 1rem; } }
+    @media (max-width: 480px) {
+      .card { padding: 1.5rem 1rem; }
+      .field-row { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -173,92 +236,209 @@
 
   <form method="POST" action="/request-access" id="accessForm">
 
+    <!-- ── Requester details ── -->
     <div class="section-label">Your details</div>
 
-    <div style="margin-bottom:1rem">
-      <label>Full name <span class="req">*</span></label>
-      <input type="text" name="requester_name" required placeholder="Jane Smith" autocomplete="name" />
+    <div class="field-row">
+      <div>
+        <label>Full name <span class="req">*</span></label>
+        <input type="text" name="requester_name" required placeholder="Jane Smith" autocomplete="name" />
+      </div>
+      <div>
+        <label>Work email <span class="req">*</span></label>
+        <input type="email" name="requester_email" required placeholder="jane@armakuni.com"
+               pattern="[^@]+@armakuni\.com" id="emailInput" />
+        <div class="error-msg" id="emailError">Must be an @armakuni.com address.</div>
+      </div>
     </div>
 
-    <div>
-      <label>Work email <span class="req">*</span></label>
-      <input type="email" name="requester_email" required placeholder="jane@armakuni.com"
-             autocomplete="email" pattern="[^@]+@armakuni\.com" id="emailInput" />
-      <div class="error-msg" id="emailError">Must be an @armakuni.com address.</div>
+    <div class="field-block">
+      <label>Manager email <span class="req">*</span></label>
+      <input type="email" name="manager_email" required placeholder="manager@armakuni.com"
+             pattern="[^@]+@armakuni\.com" id="managerEmailInput" />
+      <div class="error-msg" id="managerEmailError">Must be an @armakuni.com address.</div>
     </div>
 
-    <div class="section-label">AWS account</div>
+    <!-- ── Access type ── -->
+    <div class="section-label">Access type <span class="req">*</span></div>
+    <div class="toggle-pills">
+      <input type="radio" name="access_type" id="type_poc" value="POC" required />
+      <label for="type_poc">POC</label>
+      <input type="radio" name="access_type" id="type_rapid" value="RAPID" />
+      <label for="type_rapid">RAPID</label>
+    </div>
 
-    {% if accounts %}
+    <!-- ── AWS account ── -->
+    <div class="section-label">AWS account <span class="req">*</span></div>
     <div class="account-pills">
       {% for acct in accounts %}
       <input type="radio" name="aws_account_id" id="acct_{{ acct.id }}" value="{{ acct.id }}" required />
-      <label for="acct_{{ acct.id }}">{{ acct.name }}<br/><small style="opacity:0.7">{{ acct.id }}</small></label>
-      {% endfor %}
-    </div>
-    {% else %}
-    <p style="font-size:0.85rem;color:#6b7280">No accounts available. Contact the platform team.</p>
-    <input type="hidden" name="aws_account_id" value="" />
-    {% endif %}
-
-    <div class="section-label">Permission set</div>
-
-    <div class="pset-pills">
-      {% for pset in permission_sets %}
-      <input type="radio" name="permission_set" id="pset_{{ pset }}" value="{{ pset }}" required />
-      <label for="pset_{{ pset }}">{{ pset }}</label>
+      <label for="acct_{{ acct.id }}">
+        {{ acct.name }}<br/>
+        <small style="opacity:0.7;font-size:0.72rem">{{ acct.id }}</small>
+      </label>
       {% endfor %}
     </div>
 
-    <div class="section-label">Duration</div>
+    <!-- ── AWS services ── -->
+    <div class="section-label">AWS services <span class="req">*</span></div>
+    <div class="service-search-wrap">
+      <input type="text" id="serviceSearch" placeholder="Search e.g. Lambda, S3, Bedrock…" autocomplete="off" />
+      <div class="service-dropdown" id="serviceDropdown"></div>
+    </div>
+    <div class="selected-services" id="selectedServices"></div>
+    <div class="service-error" id="serviceError">Please select at least one AWS service.</div>
+    <input type="hidden" name="selected_services" id="selectedServicesInput" />
 
+    <!-- ── Duration ── -->
+    <div class="section-label">Duration <span class="req">*</span></div>
     <div class="slider-row">
-      <input type="range" id="durationSlider" name="duration_days" min="1" max="30" value="7" />
+      <input type="range" id="durationSlider" name="duration_days" min="1" max="{{ max_duration }}" value="7" />
       <div class="slider-value"><span id="durationDisplay">7</span> day(s)</div>
     </div>
-    <div class="slider-hint" id="sliderHint">Max 30 days for this permission set</div>
+    <div class="slider-hint">Maximum {{ max_duration }} days</div>
 
-    <div class="section-label">Justification</div>
+    <!-- ── Project details ── -->
+    <div class="section-label">Project details</div>
 
-    <textarea name="justification" placeholder="Why do you need this access? (optional)" rows="3"></textarea>
+    <div class="field-row">
+      <div>
+        <label>Project name <span class="req">*</span></label>
+        <input type="text" name="project_name" required placeholder="e.g. Acme Infra Migration" />
+      </div>
+      <div>
+        <label>Project PM / Lead <span class="req">*</span></label>
+        <input type="text" name="project_pm_lead" required placeholder="e.g. John Doe" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div>
+        <label>Client bearing cost? <span class="req">*</span></label>
+        <div class="toggle-pills" style="margin-top:0.35rem">
+          <input type="radio" name="client_cost_borne" id="cost_yes" value="Yes" required />
+          <label for="cost_yes">Yes</label>
+          <input type="radio" name="client_cost_borne" id="cost_no" value="No" />
+          <label for="cost_no">No</label>
+        </div>
+      </div>
+      <div>
+        <label>Client has AWS access? <span class="req">*</span></label>
+        <div class="toggle-pills" style="margin-top:0.35rem">
+          <input type="radio" name="client_aws_access" id="client_yes" value="Yes" required />
+          <label for="client_yes">Yes</label>
+          <input type="radio" name="client_aws_access" id="client_no" value="No" />
+          <label for="client_no">No</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Use case ── -->
+    <div class="section-label">Use case / justification <span class="req">*</span></div>
+    <textarea name="use_case" required placeholder="Describe why you need this access and what you plan to do." rows="4"></textarea>
 
     <button type="submit" class="submit-btn">Request access &rarr;</button>
   </form>
 </div>
 
 <script>
-  const durationCaps = {{ duration_caps|safe }};
-  const slider = document.getElementById("durationSlider");
-  const display = document.getElementById("durationDisplay");
-  const hint = document.getElementById("sliderHint");
-  const emailInput = document.getElementById("emailInput");
-  const emailError = document.getElementById("emailError");
+  const ALL_SERVICES = {{ aws_services|safe }};
+  let selected = [];
 
-  // Update displayed value as slider moves
-  slider.addEventListener("input", () => {
-    display.textContent = slider.value;
-  });
+  const searchInput = document.getElementById("serviceSearch");
+  const dropdown    = document.getElementById("serviceDropdown");
+  const tagsEl      = document.getElementById("selectedServices");
+  const hiddenInput = document.getElementById("selectedServicesInput");
+  const serviceErr  = document.getElementById("serviceError");
 
-  // Update slider max when permission set changes
-  document.querySelectorAll('input[name="permission_set"]').forEach(radio => {
-    radio.addEventListener("change", () => {
-      const cap = durationCaps[radio.value] || 30;
-      slider.max = cap;
-      if (parseInt(slider.value) > cap) {
-        slider.value = cap;
-        display.textContent = cap;
-      }
-      hint.textContent = `Max ${cap} day(s) for ${radio.value}`;
-    });
-  });
-
-  // Inline email domain validation
-  emailInput.addEventListener("blur", () => {
-    const val = emailInput.value;
-    if (val && !val.toLowerCase().endsWith("@armakuni.com")) {
-      emailError.style.display = "block";
+  function renderDropdown(query) {
+    const q = query.toLowerCase();
+    const matches = ALL_SERVICES.filter(s =>
+      s.toLowerCase().includes(q) && !selected.includes(s)
+    );
+    dropdown.innerHTML = "";
+    if (matches.length === 0) {
+      dropdown.innerHTML = '<div class="no-results">No matching services</div>';
     } else {
-      emailError.style.display = "none";
+      matches.slice(0, 25).forEach(s => {
+        const div = document.createElement("div");
+        div.className = "service-option";
+        div.textContent = s;
+        div.addEventListener("mousedown", e => { e.preventDefault(); addService(s); });
+        dropdown.appendChild(div);
+      });
+    }
+    dropdown.classList.add("open");
+  }
+
+  function addService(name) {
+    if (selected.includes(name)) return;
+    selected.push(name);
+    searchInput.value = "";
+    dropdown.classList.remove("open");
+    renderTags();
+    syncHidden();
+  }
+
+  function removeService(name) {
+    selected = selected.filter(s => s !== name);
+    renderTags();
+    syncHidden();
+  }
+
+  function renderTags() {
+    tagsEl.innerHTML = "";
+    selected.forEach(s => {
+      const tag = document.createElement("span");
+      tag.className = "service-tag";
+      tag.innerHTML = `${s}<button type="button" title="Remove">&times;</button>`;
+      tag.querySelector("button").addEventListener("click", () => removeService(s));
+      tagsEl.appendChild(tag);
+    });
+    serviceErr.style.display = "none";
+  }
+
+  function syncHidden() {
+    hiddenInput.value = selected.join(",");
+  }
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.trim();
+    if (q.length === 0) { dropdown.classList.remove("open"); return; }
+    renderDropdown(q);
+  });
+
+  searchInput.addEventListener("focus", () => {
+    if (searchInput.value.trim().length > 0) renderDropdown(searchInput.value);
+  });
+
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".service-search-wrap")) dropdown.classList.remove("open");
+  });
+
+  // Duration slider
+  const slider  = document.getElementById("durationSlider");
+  const display = document.getElementById("durationDisplay");
+  slider.addEventListener("input", () => { display.textContent = slider.value; });
+
+  // Email validation helpers
+  function validateEmail(input, errEl) {
+    const val = input.value;
+    errEl.style.display = (val && !val.toLowerCase().endsWith("@armakuni.com")) ? "block" : "none";
+  }
+  document.getElementById("emailInput").addEventListener("blur", function() {
+    validateEmail(this, document.getElementById("emailError"));
+  });
+  document.getElementById("managerEmailInput").addEventListener("blur", function() {
+    validateEmail(this, document.getElementById("managerEmailError"));
+  });
+
+  // Block submit if no services selected
+  document.getElementById("accessForm").addEventListener("submit", e => {
+    if (selected.length === 0) {
+      e.preventDefault();
+      serviceErr.style.display = "block";
+      searchInput.focus();
     }
   });
 </script>
