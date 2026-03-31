@@ -41,8 +41,13 @@ class SecretsStack(Stack):
         # -------------------------------------------------------------------
         # Secrets Manager — sensitive credentials (populate manually post-deploy)
         # -------------------------------------------------------------------
+        self.slack_webhook_url = _secret(
+            "slack-webhook-url",
+            "slack-webhook-url",
+            "Slack incoming webhook URL for posting approval cards to the channel",
+        )
         self.slack_bot_token = _secret(
-            "slack-bot-token", "slack-bot-token", "Slack bot OAuth token (xoxb-...)"
+            "slack-bot-token", "slack-bot-token", "Slack bot OAuth token (xoxb-...) — needed for interactive button handling"
         )
         self.slack_signing_secret = _secret(
             "slack-signing-secret",

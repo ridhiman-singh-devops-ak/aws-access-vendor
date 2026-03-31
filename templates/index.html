@@ -273,10 +273,7 @@
     <div class="account-pills">
       {% for acct in accounts %}
       <input type="radio" name="aws_account_id" id="acct_{{ acct.id }}" value="{{ acct.id }}" required />
-      <label for="acct_{{ acct.id }}">
-        {{ acct.name }}<br/>
-        <small style="opacity:0.7;font-size:0.72rem">{{ acct.id }}</small>
-      </label>
+      <label for="acct_{{ acct.id }}">{{ acct.name }}</label>
       {% endfor %}
     </div>
 
@@ -323,7 +320,7 @@
         </div>
       </div>
       <div>
-        <label>Client has AWS access? <span class="req">*</span></label>
+        <label>Access to client AWS account? <span class="req">*</span></label>
         <div class="toggle-pills" style="margin-top:0.35rem">
           <input type="radio" name="client_aws_access" id="client_yes" value="Yes" required />
           <label for="client_yes">Yes</label>
