@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Access Request</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.8rem;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: #232f3e;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 20px; height: 20px; fill: #ff9900; }
+    .logo h1 { font-size: 1.15rem; font-weight: 600; color: #232f3e; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6b7280;
+      margin-bottom: 0.6rem;
+      margin-top: 1.4rem;
+    }
+
+    label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.35rem; }
+    label span.req { color: #ef4444; margin-left: 2px; }
+
+    input[type="text"], input[type="email"], select, textarea {
+      width: 100%;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 0.55rem 0.75rem;
+      font-size: 0.9rem;
+      color: #111827;
+      background: #fff;
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* Pill account selector */
+    .account-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .account-pills input[type="radio"] { display: none; }
+    .account-pills label {
+      padding: 0.4rem 0.85rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin: 0;
+      user-select: none;
+    }
+    .account-pills input[type="radio"]:checked + label {
+      background: #232f3e;
+      border-color: #232f3e;
+      color: #ff9900;
+    }
+    .account-pills label:hover { border-color: #6b7280; }
+
+    /* Permission set pills */
+    .pset-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .pset-pills input[type="radio"] { display: none; }
+    .pset-pills label {
+      padding: 0.4rem 0.85rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin: 0;
+      user-select: none;
+    }
+    .pset-pills input[type="radio"]:checked + label {
+      background: #0f4c81;
+      border-color: #0f4c81;
+      color: #fff;
+    }
+    .pset-pills label:hover { border-color: #6b7280; }
+
+    /* Duration slider */
+    .slider-row { display: flex; align-items: center; gap: 1rem; margin-top: 0.3rem; }
+    input[type="range"] {
+      flex: 1;
+      -webkit-appearance: none;
+      height: 5px;
+      border-radius: 5px;
+      background: #d1d5db;
+      outline: none;
+      border: none;
+      box-shadow: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #0f4c81;
+      cursor: pointer;
+    }
+    .slider-value {
+      min-width: 80px;
+      text-align: right;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0f4c81;
+    }
+    .slider-hint { font-size: 0.75rem; color: #9ca3af; margin-top: 0.3rem; }
+
+    .submit-btn {
+      margin-top: 2rem;
+      width: 100%;
+      padding: 0.75rem;
+      background: #ff9900;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #232f3e;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .submit-btn:hover { background: #e68a00; }
+
+    .error-msg { color: #ef4444; font-size: 0.8rem; margin-top: 0.3rem; display: none; }
+
+    @media (max-width: 480px) { .card { padding: 1.5rem 1rem; } }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l6 2.67V11c0 3.83-2.6 7.42-6 8.93C8.6 18.42 6 14.83 6 11V7.67L12 5z"/>
+      </svg>
+    </div>
+    <h1>AWS Access Request</h1>
+  </div>
+
+  <form method="POST" action="/request-access" id="accessForm">
+
+    <div class="section-label">Your details</div>
+
+    <div style="margin-bottom:1rem">
+      <label>Full name <span class="req">*</span></label>
+      <input type="text" name="requester_name" required placeholder="Jane Smith" autocomplete="name" />
+    </div>
+
+    <div>
+      <label>Work email <span class="req">*</span></label>
+      <input type="email" name="requester_email" required placeholder="jane@armakuni.com"
+             autocomplete="email" pattern="[^@]+@armakuni\.com" id="emailInput" />
+      <div class="error-msg" id="emailError">Must be an @armakuni.com address.</div>
+    </div>
+
+    <div class="section-label">AWS account</div>
+
+    {% if accounts %}
+    <div class="account-pills">
+      {% for acct in accounts %}
+      <input type="radio" name="aws_account_id" id="acct_{{ acct.id }}" value="{{ acct.id }}" required />
+      <label for="acct_{{ acct.id }}">{{ acct.name }}<br/><small style="opacity:0.7">{{ acct.id }}</small></label>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="font-size:0.85rem;color:#6b7280">No accounts available. Contact the platform team.</p>
+    <input type="hidden" name="aws_account_id" value="" />
+    {% endif %}
+
+    <div class="section-label">Permission set</div>
+
+    <div class="pset-pills">
+      {% for pset in permission_sets %}
+      <input type="radio" name="permission_set" id="pset_{{ pset }}" value="{{ pset }}" required />
+      <label for="pset_{{ pset }}">{{ pset }}</label>
+      {% endfor %}
+    </div>
+
+    <div class="section-label">Duration</div>
+
+    <div class="slider-row">
+      <input type="range" id="durationSlider" name="duration_days" min="1" max="30" value="7" />
+      <div class="slider-value"><span id="durationDisplay">7</span> day(s)</div>
+    </div>
+    <div class="slider-hint" id="sliderHint">Max 30 days for this permission set</div>
+
+    <div class="section-label">Justification</div>
+
+    <textarea name="justification" placeholder="Why do you need this access? (optional)" rows="3"></textarea>
+
+    <button type="submit" class="submit-btn">Request access &rarr;</button>
+  </form>
+</div>
+
+<script>
+  const durationCaps = {{ duration_caps|safe }};
+  const slider = document.getElementById("durationSlider");
+  const display = document.getElementById("durationDisplay");
+  const hint = document.getElementById("sliderHint");
+  const emailInput = document.getElementById("emailInput");
+  const emailError = document.getElementById("emailError");
+
+  // Update displayed value as slider moves
+  slider.addEventListener("input", () => {
+    display.textContent = slider.value;
+  });
+
+  // Update slider max when permission set changes
+  document.querySelectorAll('input[name="permission_set"]').forEach(radio => {
+    radio.addEventListener("change", () => {
+      const cap = durationCaps[radio.value] || 30;
+      slider.max = cap;
+      if (parseInt(slider.value) > cap) {
+        slider.value = cap;
+        display.textContent = cap;
+      }
+      hint.textContent = `Max ${cap} day(s) for ${radio.value}`;
+    });
+  });
+
+  // Inline email domain validation
+  emailInput.addEventListener("blur", () => {
+    const val = emailInput.value;
+    if (val && !val.toLowerCase().endsWith("@armakuni.com")) {
+      emailError.style.display = "block";
+    } else {
+      emailError.style.display = "none";
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Request Submitted</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 3rem 2rem;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+    }
+    .icon {
+      width: 64px; height: 64px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    .icon svg { width: 32px; height: 32px; fill: #16a34a; }
+    h1 { font-size: 1.4rem; font-weight: 700; color: #111827; margin-bottom: 0.75rem; }
+    .detail {
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .detail strong { color: #374151; }
+    .notice {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: #92400e;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.5rem;
+      background: #232f3e;
+      color: #ff9900;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .back-link:hover { background: #374151; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+    </svg>
+  </div>
+
+  <h1>Request submitted</h1>
+
+  <p class="detail">
+    Hi <strong>{{ name }}</strong>, your request for access to
+    <strong>{{ account }}</strong> for <strong>{{ days }} day(s)</strong>
+    has been sent to the ops team for approval.
+  </p>
+
+  <div class="notice">
+    <strong>What happens next?</strong><br/>
+    An ops engineer will review your request in Slack. You'll receive an email at
+    your @armakuni.com address when a decision is made.
+    Access will expire automatically — no offboarding needed.
+  </div>
+
+  <a href="/" class="back-link">Submit another request</a>
+</div>
+</body>
+</html>
