@@ -73,6 +73,7 @@ class AppRunnerStack(Stack):
             iam.PolicyStatement(
                 actions=["secretsmanager:GetSecretValue"],
                 resources=[
+                    secrets_stack.slack_webhook_url.secret_arn,
                     secrets_stack.slack_bot_token.secret_arn,
                     secrets_stack.slack_signing_secret.secret_arn,
                     secrets_stack.slack_channel_id.secret_arn,

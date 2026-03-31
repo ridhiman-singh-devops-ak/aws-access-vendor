@@ -1,16 +1,16 @@
 {
   "version": "53.0.0",
   "files": {
-    "68c95d2080592e6ab796f65174726c041d66aa0c8eb153958db97b70e377bb69": {
+    "cf7a9cbd309900b6dd660c272c34e1f93482aaaaefadf5f85a1600de99f06d33": {
       "displayName": "ak-aws-access-vending-apprunner Template",
       "source": {
         "path": "ak-aws-access-vending-apprunner.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1-14cbb442": {
+        "current_account-us-east-1-1f7cdd19": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
-          "objectKey": "68c95d2080592e6ab796f65174726c041d66aa0c8eb153958db97b70e377bb69.json",
+          "objectKey": "cf7a9cbd309900b6dd660c272c34e1f93482aaaaefadf5f85a1600de99f06d33.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
         }

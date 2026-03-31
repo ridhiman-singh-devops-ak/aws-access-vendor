@@ -106,6 +106,9 @@
        "Effect": "Allow",
        "Resource": [
         {
+         "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefslackwebhookurl723261025194AEE9"
+        },
+        {
          "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefslackbottoken90A53860C2C2DC30"
         },
         {
