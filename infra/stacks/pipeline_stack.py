@@ -81,13 +81,13 @@ class PipelineStack(Stack):
                         "build": {
                             "commands": [
                                 "docker build -t $ECR_REPO_URI:latest .",
-                                "docker tag $ECR_REPO_URI:latest $ECR_REPO_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
+                                "docker tag $ECR_REPO_URI:latest $ECR_REPO_URI:dev",
                             ]
                         },
                         "post_build": {
                             "commands": [
                                 "docker push $ECR_REPO_URI:latest",
-                                "docker push $ECR_REPO_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION",
+                                "docker push $ECR_REPO_URI:dev",
                             ]
                         },
                     },
