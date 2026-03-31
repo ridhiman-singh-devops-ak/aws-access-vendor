@@ -1,0 +1,340 @@
+{
+ "Resources": {
+  "akawsaccessvendingapprunnerecrroleF6384E42": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "build.apprunner.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+       ]
+      ]
+     }
+    ],
+    "RoleName": "ak-aws-access-vending-apprunner-ecr-role",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-ecr-role/Resource"
+   }
+  },
+  "akawsaccessvendingapprunnerinstancerole62AD641E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "tasks.apprunner.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "ak-aws-access-vending-apprunner-instance-role",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-instance-role/Resource"
+   }
+  },
+  "akawsaccessvendingapprunnerinstanceroleDefaultPolicy3AB2CD89": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::ImportValue": "ak-aws-access-vending-dynamodb:ExportsOutputFnGetAttakawsaccessvendingpendingrequestsEF6A95C6Arn0F8BE8CE"
+       }
+      },
+      {
+       "Action": "secretsmanager:GetSecretValue",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefslackbottoken90A53860C2C2DC30"
+        },
+        {
+         "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefslacksigningsecret31B14CCE29B30F60"
+        },
+        {
+         "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefslackchannelid34774578CE43D291"
+        },
+        {
+         "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefawsapiurlF886AFC5640DBAA2"
+        }
+       ]
+      },
+      {
+       "Action": "ssm:GetParameter",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:ssm:us-east-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":parameter",
+           {
+            "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefpendingrequeststableparam50BBAAFA5DDD3EAE"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:ssm:us-east-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":parameter",
+           {
+            "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefallowedemaildomainparamAD0234C6602BC36F"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:ssm:us-east-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":parameter",
+           {
+            "Fn::ImportValue": "ak-aws-access-vending-secrets:ExportsOutputRefsesfromemailparamFF0355CDE864CDD7"
+           }
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "organizations:ListAccounts",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "ses:SendEmail",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "akawsaccessvendingapprunnerinstanceroleDefaultPolicy3AB2CD89",
+    "Roles": [
+     {
+      "Ref": "akawsaccessvendingapprunnerinstancerole62AD641E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-instance-role/DefaultPolicy/Resource"
+   }
+  },
+  "akawsaccessvendingapprunnerservice": {
+   "Type": "AWS::AppRunner::Service",
+   "Properties": {
+    "HealthCheckConfiguration": {
+     "HealthyThreshold": 1,
+     "Interval": 10,
+     "Path": "/health",
+     "Protocol": "HTTP",
+     "Timeout": 5,
+     "UnhealthyThreshold": 3
+    },
+    "InstanceConfiguration": {
+     "InstanceRoleArn": {
+      "Fn::GetAtt": [
+       "akawsaccessvendingapprunnerinstancerole62AD641E",
+       "Arn"
+      ]
+     }
+    },
+    "ServiceName": "ak-aws-access-vending-app",
+    "SourceConfiguration": {
+     "AuthenticationConfiguration": {
+      "AccessRoleArn": {
+       "Fn::GetAtt": [
+        "akawsaccessvendingapprunnerecrroleF6384E42",
+        "Arn"
+       ]
+      }
+     },
+     "AutoDeploymentsEnabled": true,
+     "ImageRepository": {
+      "ImageConfiguration": {
+       "Port": "8000"
+      },
+      "ImageIdentifier": {
+       "Fn::Join": [
+        "",
+        [
+         {
+          "Fn::Select": [
+           4,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::ImportValue": "ak-aws-access-vending-pipeline:ExportsOutputFnGetAttakawsaccessvendingecr6105BBD8Arn7724D205"
+             }
+            ]
+           }
+          ]
+         },
+         ".dkr.ecr.",
+         {
+          "Fn::Select": [
+           3,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::ImportValue": "ak-aws-access-vending-pipeline:ExportsOutputFnGetAttakawsaccessvendingecr6105BBD8Arn7724D205"
+             }
+            ]
+           }
+          ]
+         },
+         ".",
+         {
+          "Ref": "AWS::URLSuffix"
+         },
+         "/",
+         {
+          "Fn::ImportValue": "ak-aws-access-vending-pipeline:ExportsOutputRefakawsaccessvendingecr6105BBD8DE907731"
+         },
+         ":latest"
+        ]
+       ]
+      },
+      "ImageRepositoryType": "ECR"
+     }
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-service"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yWKWw6DIBBF18I/jPW1gm7A6AIM4jSdgmCQ1hjC3sX6dc49uRVUTQsPJvdNqFkLQxPEIUileU5jJLlA7J1B/nzZPztnSB3XvC1xua7+ay16yHFA/yOFKfHuCG9nixrKBkr22YhEvgVaEPqbJ4aJspZ9AAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-apprunner/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

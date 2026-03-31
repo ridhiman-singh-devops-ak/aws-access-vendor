@@ -1,0 +1,898 @@
+{
+ "Resources": {
+  "akawsaccessvendingecr6105BBD8": {
+   "Type": "AWS::ECR::Repository",
+   "Properties": {
+    "RepositoryName": "ak-aws-access-vending-app",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-ecr/Resource"
+   }
+  },
+  "akawsaccessvendinggithubconnection": {
+   "Type": "AWS::CodeStarConnections::Connection",
+   "Properties": {
+    "ConnectionName": "ak-aws-access-vending-github",
+    "ProviderType": "GitHub",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-github-connection"
+   }
+  },
+  "akawsaccessvendingcodebuildRole76F4C930": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Role/Resource"
+   }
+  },
+  "akawsaccessvendingcodebuildRoleDefaultPolicyB986D8B7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "akawsaccessvendingcodebuildD57171E0"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:logs:us-east-1:",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "akawsaccessvendingcodebuildD57171E0"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:CreateReportGroup",
+        "codebuild:CreateReport",
+        "codebuild:UpdateReport",
+        "codebuild:BatchPutTestCases",
+        "codebuild:BatchPutCodeCoverages"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:codebuild:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":report-group/",
+          {
+           "Ref": "akawsaccessvendingcodebuildD57171E0"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "akawsaccessvendingecr6105BBD8",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "ecr:GetAuthorizationToken",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "akawsaccessvendingcodebuildRoleDefaultPolicyB986D8B7",
+    "Roles": [
+     {
+      "Ref": "akawsaccessvendingcodebuildRole76F4C930"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Role/DefaultPolicy/Resource"
+   }
+  },
+  "akawsaccessvendingcodebuildD57171E0": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "EncryptionKey": "alias/aws/s3",
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "EnvironmentVariables": [
+      {
+       "Name": "ECR_REPO_URI",
+       "Type": "PLAINTEXT",
+       "Value": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::Select": [
+            4,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Fn::GetAtt": [
+                "akawsaccessvendingecr6105BBD8",
+                "Arn"
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          ".dkr.ecr.",
+          {
+           "Fn::Select": [
+            3,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Fn::GetAtt": [
+                "akawsaccessvendingecr6105BBD8",
+                "Arn"
+               ]
+              }
+             ]
+            }
+           ]
+          },
+          ".",
+          {
+           "Ref": "AWS::URLSuffix"
+          },
+          "/",
+          {
+           "Ref": "akawsaccessvendingecr6105BBD8"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Image": "aws/codebuild/standard:7.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": true,
+     "Type": "LINUX_CONTAINER"
+    },
+    "Name": "ak-aws-access-vending-docker-build",
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "akawsaccessvendingcodebuildRole76F4C930",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"pre_build\": {\n      \"commands\": [\n        \"aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO_URI\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"docker build -t $ECR_REPO_URI:latest .\",\n        \"docker tag $ECR_REPO_URI:latest $ECR_REPO_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION\"\n      ]\n    },\n    \"post_build\": {\n      \"commands\": [\n        \"docker push $ECR_REPO_URI:latest\",\n        \"docker push $ECR_REPO_URI:$CODEBUILD_RESOLVED_SOURCE_VERSION\"\n      ]\n    }\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelineArtifactsBucket9E63295D": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketEncryption": {
+     "ServerSideEncryptionConfiguration": [
+      {
+       "ServerSideEncryptionByDefault": {
+        "SSEAlgorithm": "aws:kms"
+       }
+      }
+     ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/ArtifactsBucket/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelineArtifactsBucketPolicy38C479BF": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "akawsaccessvendingcodepipelineArtifactsBucket9E63295D"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:*",
+       "Condition": {
+        "Bool": {
+         "aws:SecureTransport": "false"
+        }
+       },
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/ArtifactsBucket/Policy/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelineRole2734099E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Role/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelineRoleDefaultPolicy6F74F32B": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRole5BEEB3D9",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRole99600174",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "akawsaccessvendingcodepipelineRoleDefaultPolicy6F74F32B",
+    "Roles": [
+     {
+      "Ref": "akawsaccessvendingcodepipelineRole2734099E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipeline09DF553A": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "ArtifactStore": {
+     "Location": {
+      "Ref": "akawsaccessvendingcodepipelineArtifactsBucket9E63295D"
+     },
+     "Type": "S3"
+    },
+    "Name": "ak-aws-access-vending-pipeline",
+    "PipelineType": "V2",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "akawsaccessvendingcodepipelineRole2734099E",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "AWS",
+         "Provider": "CodeStarSourceConnection",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ConnectionArn": {
+          "Fn::GetAtt": [
+           "akawsaccessvendinggithubconnection",
+           "ConnectionArn"
+          ]
+         },
+         "FullRepositoryId": "ridhiman-singh-devops-ak/aws-access-vendor",
+         "BranchName": "main",
+         "DetectChanges": true
+        },
+        "Name": "github-source",
+        "OutputArtifacts": [
+         {
+          "Name": "source"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRole5BEEB3D9",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "akawsaccessvendingcodebuildD57171E0"
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "source"
+         }
+        ],
+        "Name": "docker-build-push",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRole99600174",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "build"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "DependsOn": [
+    "akawsaccessvendingcodepipelineRoleDefaultPolicy6F74F32B",
+    "akawsaccessvendingcodepipelineRole2734099E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRole5BEEB3D9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineRole2734099E",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/source/github-source/CodePipelineActionRole/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRoleDefaultPolicy0C30BCCA": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codestar-connections:UseConnection",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "akawsaccessvendinggithubconnection",
+         "ConnectionArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:PutObjectAcl",
+        "s3:PutObjectVersionAcl"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "akawsaccessvendingcodepipelineArtifactsBucket9E63295D",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRoleDefaultPolicy0C30BCCA",
+    "Roles": [
+     {
+      "Ref": "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRole5BEEB3D9"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/source/github-source/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRole99600174": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "akawsaccessvendingcodepipelineRole2734099E",
+          "Arn"
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/build/docker-build-push/CodePipelineActionRole/Resource"
+   }
+  },
+  "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRoleDefaultPolicy6A77D971": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "akawsaccessvendingcodebuildD57171E0",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRoleDefaultPolicy6A77D971",
+    "Roles": [
+     {
+      "Ref": "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRole99600174"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/build/docker-build-push/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02NUQ6CMBBEz8J/WUXxAnoBggcwWNa4ULukLTGm6d2FthG/ZmZ38uYAh/oE+6J721L2Y6noDv7qOjmK5XTzKA34Fie25Nh8xOWhtxSE5B6t64xkrVE6Ym1hqVx+MTbuM6kefEMTKtLYGB6W78rKNgjqXssOK4wLqzasSMbB5NLYlBkbLTayD8IewZ9nOWLEZ5dkA/7nEIJoPu7JeneEqoaqGCxRaWbt6IXQJv0CtIHMUicBAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-pipeline/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttakawsaccessvendingecr6105BBD8Arn7724D205": {
+   "Value": {
+    "Fn::GetAtt": [
+     "akawsaccessvendingecr6105BBD8",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ak-aws-access-vending-pipeline:ExportsOutputFnGetAttakawsaccessvendingecr6105BBD8Arn7724D205"
+   }
+  },
+  "ExportsOutputRefakawsaccessvendingecr6105BBD8DE907731": {
+   "Value": {
+    "Ref": "akawsaccessvendingecr6105BBD8"
+   },
+   "Export": {
+    "Name": "ak-aws-access-vending-pipeline:ExportsOutputRefakawsaccessvendingecr6105BBD8DE907731"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

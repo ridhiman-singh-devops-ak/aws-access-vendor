@@ -1,7 +1,7 @@
 {
   "app": "python3 app.py",
   "context": {
-    "github_owner": "armakuni",
+    "github_owner": "ridhiman-singh-devops-ak",
     "github_repo": "aws-access-vendor",
     "github_branch": "main",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,

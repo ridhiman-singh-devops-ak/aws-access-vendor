@@ -1,0 +1,135 @@
+{
+  "/ak-aws-access-vending-pipeline": [
+    {
+      "type": "aws:cdk:stack-tags",
+      "data": [
+        {
+          "key": "CreatedBy",
+          "value": "ridhiman@armakuni.com"
+        },
+        {
+          "key": "Environment",
+          "value": "dev"
+        },
+        {
+          "key": "Project",
+          "value": "internal-ak"
+        }
+      ]
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-github-connection": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendinggithubconnection"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-ecr/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingecr6105BBD8"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodebuildD57171E0"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipeline09DF553A"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/Exports/Output{\"Fn::GetAtt\":[\"akawsaccessvendingecr6105BBD8\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttakawsaccessvendingecr6105BBD8Arn7724D205"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/Exports/Output{\"Ref\":\"akawsaccessvendingecr6105BBD8\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputRefakawsaccessvendingecr6105BBD8DE907731"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodebuildRole76F4C930"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/ArtifactsBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelineArtifactsBucket9E63295D"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelineRole2734099E"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codebuild/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodebuildRoleDefaultPolicyB986D8B7"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/ArtifactsBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelineArtifactsBucketPolicy38C479BF"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelineRoleDefaultPolicy6F74F32B"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/source/github-source/CodePipelineActionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRole5BEEB3D9"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/build/docker-build-push/CodePipelineActionRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRole99600174"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/source/github-source/CodePipelineActionRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelinesourcegithubsourceCodePipelineActionRoleDefaultPolicy0C30BCCA"
+    }
+  ],
+  "/ak-aws-access-vending-pipeline/ak-aws-access-vending-codepipeline/build/docker-build-push/CodePipelineActionRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingcodepipelinebuilddockerbuildpushCodePipelineActionRoleDefaultPolicy6A77D971"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "/ak-aws-access-vending-dynamodb": [
+    {
+      "type": "aws:cdk:stack-tags",
+      "data": [
+        {
+          "key": "CreatedBy",
+          "value": "ridhiman@armakuni.com"
+        },
+        {
+          "key": "Environment",
+          "value": "dev"
+        },
+        {
+          "key": "Project",
+          "value": "internal-ak"
+        }
+      ]
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/ak-aws-access-vending-access-records": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "akawsaccessvendingaccessrecords5452373B"
+      }
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/ak-aws-access-vending-pending-requests": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "akawsaccessvendingpendingrequestsEF6A95C6"
+      }
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/ak-aws-access-vending-access-records/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingaccessrecords5452373B"
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/ak-aws-access-vending-pending-requests/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingpendingrequestsEF6A95C6"
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ak-aws-access-vending-dynamodb/Exports/Output{\"Fn::GetAtt\":[\"akawsaccessvendingpendingrequestsEF6A95C6\",\"Arn\"]}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ExportsOutputFnGetAttakawsaccessvendingpendingrequestsEF6A95C6Arn0F8BE8CE"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "53.0.0",
+  "files": {
+    "68c95d2080592e6ab796f65174726c041d66aa0c8eb153958db97b70e377bb69": {
+      "displayName": "ak-aws-access-vending-apprunner Template",
+      "source": {
+        "path": "ak-aws-access-vending-apprunner.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-14cbb442": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "68c95d2080592e6ab796f65174726c041d66aa0c8eb153958db97b70e377bb69.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

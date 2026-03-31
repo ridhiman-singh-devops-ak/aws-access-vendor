@@ -1,0 +1,21 @@
+{
+  "version": "53.0.0",
+  "files": {
+    "96fa721c8abf20b00138bd3447fee2fc3edbefad7284a9be971440102d61f8ea": {
+      "displayName": "ak-aws-access-vending-pipeline Template",
+      "source": {
+        "path": "ak-aws-access-vending-pipeline.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-3a02c1b8": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "96fa721c8abf20b00138bd3447fee2fc3edbefad7284a9be971440102d61f8ea.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

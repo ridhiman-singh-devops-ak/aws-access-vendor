@@ -1,0 +1,63 @@
+{
+  "/ak-aws-access-vending-apprunner": [
+    {
+      "type": "aws:cdk:stack-tags",
+      "data": [
+        {
+          "key": "CreatedBy",
+          "value": "ridhiman@armakuni.com"
+        },
+        {
+          "key": "Environment",
+          "value": "dev"
+        },
+        {
+          "key": "Project",
+          "value": "internal-ak"
+        }
+      ]
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-service": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingapprunnerservice"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-ecr-role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingapprunnerecrroleF6384E42"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-instance-role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingapprunnerinstancerole62AD641E"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/ak-aws-access-vending-apprunner/ak-aws-access-vending-apprunner-instance-role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "akawsaccessvendingapprunnerinstanceroleDefaultPolicy3AB2CD89"
+    }
+  ]
+}

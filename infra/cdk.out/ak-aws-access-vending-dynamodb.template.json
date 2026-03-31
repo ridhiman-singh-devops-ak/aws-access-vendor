@@ -1,0 +1,153 @@
+{
+ "Resources": {
+  "akawsaccessvendingaccessrecords5452373B": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "request_id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "request_id",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "StreamSpecification": {
+     "StreamViewType": "OLD_IMAGE"
+    },
+    "TableName": "ak-aws-access-vending-access-records",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ],
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-dynamodb/ak-aws-access-vending-access-records/Resource"
+   }
+  },
+  "akawsaccessvendingpendingrequestsEF6A95C6": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "request_id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "request_id",
+      "KeyType": "HASH"
+     }
+    ],
+    "PointInTimeRecoverySpecification": {
+     "PointInTimeRecoveryEnabled": true
+    },
+    "TableName": "ak-aws-access-vending-pending-requests",
+    "Tags": [
+     {
+      "Key": "CreatedBy",
+      "Value": "ridhiman@armakuni.com"
+     },
+     {
+      "Key": "Environment",
+      "Value": "dev"
+     },
+     {
+      "Key": "Project",
+      "Value": "internal-ak"
+     }
+    ],
+    "TimeToLiveSpecification": {
+     "AttributeName": "ttl",
+     "Enabled": true
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-dynamodb/ak-aws-access-vending-pending-requests/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSMzIx1TNQTCwv1k1OydbNyUzSqw4uSUzO1gEKxadU5iXm5qcAxUISk3JSdZzT8sCMWp2g1OL80qJkICugsiQjP0/fWM/QRM9QMas4M1O3qDSvJDM3VS8IQgMAUH8DemUAAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ak-aws-access-vending-dynamodb/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttakawsaccessvendingpendingrequestsEF6A95C6Arn0F8BE8CE": {
+   "Value": {
+    "Fn::GetAtt": [
+     "akawsaccessvendingpendingrequestsEF6A95C6",
+     "Arn"
+    ]
+   },
+   "Export": {
+    "Name": "ak-aws-access-vending-dynamodb:ExportsOutputFnGetAttakawsaccessvendingpendingrequestsEF6A95C6Arn0F8BE8CE"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
