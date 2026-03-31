@@ -152,7 +152,7 @@ def _post_slack_request(
         "blocks": [
             {
                 "type": "header",
-                "text": {"type": "plain_text", "text": ":aws: New AWS Access Request", "emoji": True},
+                "text": {"type": "plain_text", "text": "New AWS Access Request", "emoji": False},
             },
             {"type": "divider"},
             {
@@ -160,6 +160,11 @@ def _post_slack_request(
                 "fields": [
                     {"type": "mrkdwn", "text": f"*Requester*\n{requester_name}"},
                     {"type": "mrkdwn", "text": f"*Email*\n{requester_email}"},
+                ],
+            },
+            {
+                "type": "section",
+                "fields": [
                     {"type": "mrkdwn", "text": f"*Manager*\n{manager_email}"},
                     {"type": "mrkdwn", "text": f"*Access Type*\n{access_type}"},
                 ],
@@ -169,6 +174,11 @@ def _post_slack_request(
                 "fields": [
                     {"type": "mrkdwn", "text": f"*AWS Account*\n{account_name}"},
                     {"type": "mrkdwn", "text": f"*Duration*\n{duration_days} day(s)"},
+                ],
+            },
+            {
+                "type": "section",
+                "fields": [
                     {"type": "mrkdwn", "text": f"*Project*\n{project_name}"},
                     {"type": "mrkdwn", "text": f"*PM / Lead*\n{project_pm_lead}"},
                 ],
@@ -194,14 +204,14 @@ def _post_slack_request(
                 "elements": [
                     {
                         "type": "button",
-                        "text": {"type": "plain_text", "text": "Approve", "emoji": True},
+                        "text": {"type": "plain_text", "text": "Approve"},
                         "style": "primary",
                         "action_id": "approve_request",
                         "value": "static_placeholder",
                     },
                     {
                         "type": "button",
-                        "text": {"type": "plain_text", "text": "Deny", "emoji": True},
+                        "text": {"type": "plain_text", "text": "Deny"},
                         "style": "danger",
                         "action_id": "deny_request",
                         "value": "static_placeholder",
