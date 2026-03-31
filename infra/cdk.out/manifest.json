@@ -1,19 +1,19 @@
 {
   "version": "53.0.0",
   "artifacts": {
-    "ak-aws-access-vending-secrets.assets": {
+    "aws-access-vending-secrets.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ak-aws-access-vending-secrets.assets.json",
+        "file": "aws-access-vending-secrets.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ak-aws-access-vending-secrets": {
+    "aws-access-vending-secrets": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/us-east-1",
       "properties": {
-        "templateFile": "ak-aws-access-vending-secrets.template.json",
+        "templateFile": "aws-access-vending-secrets.template.json",
         "terminationProtection": false,
         "tags": {
           "CreatedBy": "ridhiman@armakuni.com",
@@ -23,11 +23,11 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/e91156594149083ca562ccacafd2f8c9f489701d99838c9b8e8146e773ff2995.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/4d18d8155bcca45e679e6e63cdb5513d4a482892270d6a87517f0be380afcded.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ak-aws-access-vending-secrets.assets"
+          "aws-access-vending-secrets.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
@@ -36,24 +36,24 @@
         }
       },
       "dependencies": [
-        "ak-aws-access-vending-secrets.assets"
+        "aws-access-vending-secrets.assets"
       ],
-      "additionalMetadataFile": "ak-aws-access-vending-secrets.metadata.json",
-      "displayName": "ak-aws-access-vending-secrets"
+      "additionalMetadataFile": "aws-access-vending-secrets.metadata.json",
+      "displayName": "aws-access-vending-secrets"
     },
-    "ak-aws-access-vending-dynamodb.assets": {
+    "aws-access-vending-dynamodb.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ak-aws-access-vending-dynamodb.assets.json",
+        "file": "aws-access-vending-dynamodb.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ak-aws-access-vending-dynamodb": {
+    "aws-access-vending-dynamodb": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/us-east-1",
       "properties": {
-        "templateFile": "ak-aws-access-vending-dynamodb.template.json",
+        "templateFile": "aws-access-vending-dynamodb.template.json",
         "terminationProtection": false,
         "tags": {
           "CreatedBy": "ridhiman@armakuni.com",
@@ -63,11 +63,11 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/bd9801ae9b22cb01979eead121aadd84a61b7bbd6a973369be41dd9eddcc64fc.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/d17ede69af6673019395ebb0ec68810ad5ff149d9ed04b31310f5dd5c05ba85b.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ak-aws-access-vending-dynamodb.assets"
+          "aws-access-vending-dynamodb.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
@@ -76,24 +76,24 @@
         }
       },
       "dependencies": [
-        "ak-aws-access-vending-dynamodb.assets"
+        "aws-access-vending-dynamodb.assets"
       ],
-      "additionalMetadataFile": "ak-aws-access-vending-dynamodb.metadata.json",
-      "displayName": "ak-aws-access-vending-dynamodb"
+      "additionalMetadataFile": "aws-access-vending-dynamodb.metadata.json",
+      "displayName": "aws-access-vending-dynamodb"
     },
-    "ak-aws-access-vending-pipeline.assets": {
+    "aws-access-vending-pipeline.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ak-aws-access-vending-pipeline.assets.json",
+        "file": "aws-access-vending-pipeline.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ak-aws-access-vending-pipeline": {
+    "aws-access-vending-pipeline": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/us-east-1",
       "properties": {
-        "templateFile": "ak-aws-access-vending-pipeline.template.json",
+        "templateFile": "aws-access-vending-pipeline.template.json",
         "terminationProtection": false,
         "tags": {
           "CreatedBy": "ridhiman@armakuni.com",
@@ -103,11 +103,11 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/9ac69bfd1f995cf6595e13775011c30e623db915dde7518c5aad85a8976b24f9.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/65c6acefefda75d587ad8118272e31efe6b7f8dc1289a9960af9e0a657eb8678.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ak-aws-access-vending-pipeline.assets"
+          "aws-access-vending-pipeline.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
@@ -116,24 +116,24 @@
         }
       },
       "dependencies": [
-        "ak-aws-access-vending-pipeline.assets"
+        "aws-access-vending-pipeline.assets"
       ],
-      "additionalMetadataFile": "ak-aws-access-vending-pipeline.metadata.json",
-      "displayName": "ak-aws-access-vending-pipeline"
+      "additionalMetadataFile": "aws-access-vending-pipeline.metadata.json",
+      "displayName": "aws-access-vending-pipeline"
     },
-    "ak-aws-access-vending-apprunner.assets": {
+    "aws-access-vending-apprunner.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "ak-aws-access-vending-apprunner.assets.json",
+        "file": "aws-access-vending-apprunner.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "ak-aws-access-vending-apprunner": {
+    "aws-access-vending-apprunner": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/us-east-1",
       "properties": {
-        "templateFile": "ak-aws-access-vending-apprunner.template.json",
+        "templateFile": "aws-access-vending-apprunner.template.json",
         "terminationProtection": false,
         "tags": {
           "CreatedBy": "ridhiman@armakuni.com",
@@ -143,11 +143,11 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/cf7a9cbd309900b6dd660c272c34e1f93482aaaaefadf5f85a1600de99f06d33.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/7d60eb62abe487fee7ba10d46b46ab5ef6a9b2558d68fd13017a5be4f5e34683.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ak-aws-access-vending-apprunner.assets"
+          "aws-access-vending-apprunner.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-us-east-1",
@@ -156,13 +156,13 @@
         }
       },
       "dependencies": [
-        "ak-aws-access-vending-secrets",
-        "ak-aws-access-vending-dynamodb",
-        "ak-aws-access-vending-pipeline",
-        "ak-aws-access-vending-apprunner.assets"
+        "aws-access-vending-secrets",
+        "aws-access-vending-dynamodb",
+        "aws-access-vending-pipeline",
+        "aws-access-vending-apprunner.assets"
       ],
-      "additionalMetadataFile": "ak-aws-access-vending-apprunner.metadata.json",
-      "displayName": "ak-aws-access-vending-apprunner"
+      "additionalMetadataFile": "aws-access-vending-apprunner.metadata.json",
+      "displayName": "aws-access-vending-apprunner"
     },
     "Tree": {
       "type": "cdk:tree",

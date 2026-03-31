@@ -100,7 +100,7 @@ def _get_secret(secret_name: str) -> str | None:
 
 def _load_slack_config() -> None:
     global _slack_webhook_url
-    webhook_url = _get_secret("ak-aws-access-vending/slack-webhook-url")
+    webhook_url = _get_secret("aws-access-vending/slack-webhook-url")
     if webhook_url:
         _slack_webhook_url = webhook_url
     else:

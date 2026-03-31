@@ -6,8 +6,8 @@ from constructs import Construct
 class DynamoDBStack(Stack):
     """DynamoDB tables for the access vending machine.
 
-    ak-aws-access-vending-access-records  — long-lived grant records; TTL drives cleanup via Streams.
-    ak-aws-access-vending-pending-requests — short-lived Slack approval state.
+    aws-access-vending-access-records  — long-lived grant records; TTL drives cleanup via Streams.
+    aws-access-vending-pending-requests — short-lived Slack approval state.
     """
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
@@ -18,8 +18,8 @@ class DynamoDBStack(Stack):
         # -------------------------------------------------------------------
         self.access_records_table = dynamodb.Table(
             self,
-            "ak-aws-access-vending-access-records",
-            table_name="ak-aws-access-vending-access-records",
+            "aws-access-vending-access-records",
+            table_name="aws-access-vending-access-records",
             partition_key=dynamodb.Attribute(
                 name="request_id", type=dynamodb.AttributeType.STRING
             ),
@@ -37,8 +37,8 @@ class DynamoDBStack(Stack):
         # -------------------------------------------------------------------
         self.pending_requests_table = dynamodb.Table(
             self,
-            "ak-aws-access-vending-pending-requests",
-            table_name="ak-aws-access-vending-pending-requests",
+            "aws-access-vending-pending-requests",
+            table_name="aws-access-vending-pending-requests",
             partition_key=dynamodb.Attribute(
                 name="request_id", type=dynamodb.AttributeType.STRING
             ),

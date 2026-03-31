@@ -9,7 +9,7 @@ class SecretsStack(Stack):
 
     After deploying, populate each secret:
       aws secretsmanager put-secret-value \
-        --secret-id ak-aws-access-vending/slack-bot-token \
+        --secret-id aws-access-vending/slack-bot-token \
         --secret-string "xoxb-..."
 
     SSM parameters are pre-populated with defaults at deploy time.
@@ -18,8 +18,8 @@ class SecretsStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        _secret_prefix = "ak-aws-access-vending"
-        _param_prefix = "/ak-aws-access-vending"
+        _secret_prefix = "aws-access-vending"
+        _param_prefix = "/aws-access-vending"
 
         def _secret(logical_id: str, name: str, description: str) -> secretsmanager.Secret:
             return secretsmanager.Secret(
@@ -81,7 +81,7 @@ class SecretsStack(Stack):
         self.pending_requests_table_param = _param(
             "pending-requests-table-param",
             "pending-requests-table",
-            "ak-aws-access-vending-pending-requests",
+            "aws-access-vending-pending-requests",
             "DynamoDB table name for pending approval requests",
         )
         self.allowed_email_domain_param = _param(

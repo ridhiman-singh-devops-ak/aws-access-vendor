@@ -15,7 +15,7 @@ class PipelineStack(Stack):
 
     One-time manual step after deploying this stack:
       1. Go to AWS Console → Developer Tools → Connections
-      2. Find the "ak-aws-access-vending-github" connection and click "Update pending connection"
+      2. Find the "aws-access-vending-github" connection and click "Update pending connection"
       3. Authorise the GitHub App for your org
     Without this the pipeline Source stage will stay in Pending state.
     """
@@ -37,8 +37,8 @@ class PipelineStack(Stack):
         # -------------------------------------------------------------------
         self.ecr_repo = ecr.Repository(
             self,
-            "ak-aws-access-vending-ecr",
-            repository_name="ak-aws-access-vending-app",
+            "aws-access-vending-ecr",
+            repository_name="aws-access-vending-app",
         )
 
         # -------------------------------------------------------------------
@@ -46,8 +46,8 @@ class PipelineStack(Stack):
         # -------------------------------------------------------------------
         github_connection = codestarconnections.CfnConnection(
             self,
-            "ak-aws-access-vending-github-connection",
-            connection_name="ak-aws-access-vending-github",
+            "aws-access-vending-github-connection",
+            connection_name="aws-access-vending-github",
             provider_type="GitHub",
         )
         connection_arn = github_connection.attr_connection_arn
@@ -57,8 +57,8 @@ class PipelineStack(Stack):
         # -------------------------------------------------------------------
         build_project = codebuild.PipelineProject(
             self,
-            "ak-aws-access-vending-codebuild",
-            project_name="ak-aws-access-vending-docker-build",
+            "aws-access-vending-codebuild",
+            project_name="aws-access-vending-docker-build",
             environment=codebuild.BuildEnvironment(
                 build_image=codebuild.LinuxBuildImage.STANDARD_7_0,
                 privileged=True,  # Required for docker build
@@ -104,8 +104,8 @@ class PipelineStack(Stack):
 
         codepipeline.Pipeline(
             self,
-            "ak-aws-access-vending-codepipeline",
-            pipeline_name="ak-aws-access-vending-pipeline",
+            "aws-access-vending-codepipeline",
+            pipeline_name="aws-access-vending-pipeline",
             pipeline_type=codepipeline.PipelineType.V2,
             cross_account_keys=False,  # Use AWS managed key (SSE-S3), not CMK
             stages=[

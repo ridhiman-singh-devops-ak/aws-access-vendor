@@ -35,8 +35,8 @@ class AppRunnerStack(Stack):
         # -------------------------------------------------------------------
         ecr_access_role = iam.Role(
             self,
-            "ak-aws-access-vending-apprunner-ecr-role",
-            role_name="ak-aws-access-vending-apprunner-ecr-role",
+            "aws-access-vending-apprunner-ecr-role",
+            role_name="aws-access-vending-apprunner-ecr-role",
             assumed_by=iam.ServicePrincipal("build.apprunner.amazonaws.com"),
             managed_policies=[
                 iam.ManagedPolicy.from_aws_managed_policy_name(
@@ -50,8 +50,8 @@ class AppRunnerStack(Stack):
         # -------------------------------------------------------------------
         instance_role = iam.Role(
             self,
-            "ak-aws-access-vending-apprunner-instance-role",
-            role_name="ak-aws-access-vending-apprunner-instance-role",
+            "aws-access-vending-apprunner-instance-role",
+            role_name="aws-access-vending-apprunner-instance-role",
             assumed_by=iam.ServicePrincipal("tasks.apprunner.amazonaws.com"),
         )
 
@@ -117,8 +117,8 @@ class AppRunnerStack(Stack):
 
         self.service = apprunner.CfnService(
             self,
-            "ak-aws-access-vending-apprunner-service",
-            service_name="ak-aws-access-vending-app",
+            "aws-access-vending-apprunner-service",
+            service_name="aws-access-vending-app",
             source_configuration=apprunner.CfnService.SourceConfigurationProperty(
                 authentication_configuration=apprunner.CfnService.AuthenticationConfigurationProperty(
                     access_role_arn=ecr_access_role.role_arn,
